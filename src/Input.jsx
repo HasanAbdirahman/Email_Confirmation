@@ -7,24 +7,45 @@ export default function Input(){
     const [checked, setChecked]= useState(false)
     
     
-    async function  handleSubmit(e){
-        e.preventDefault();     
-        if (checked && email){
-            try {
-                const resend = new Resend("re_Jfj7GyeA_L9kY8pzfZ8drMLFcsGp54dsW");
-                await resend.emails.send({
-                    from: 'Hasan <hasanabdirahman1999@gmail.com>',
-                    to: [email],
-                    subject: 'Hello World',
-                    // react: <Email url="https://example.com" />,
-                    html: '<strong>It works!</strong>'
-                });
-                console.log('Email sent successfully');
-            } catch (error) {
-                console.error('Error sending email:', error);
-            }
-        }       
+    // async function  handleSubmit(e){
+    //     e.preventDefault();     
+    //     if (checked && email){
+    //         try {
+    //             const resend = new Resend("re_Jfj7GyeA_L9kY8pzfZ8drMLFcsGp54dsW");
+    //             await resend.emails.send({
+    //                 from: 'Hasan <hasanabdirahman1999@gmail.com>',
+    //                 to: [email],
+    //                 subject: 'Hello World',
+    //                 react: <Email url="https://example.com" />,
+    //                 html: '<strong>It works!</strong>'
+    //             });
+    //             console.log('Email sent successfully');
+    //         } catch (error) {
+    //             console.error('Error sending email:', error);
+    //         }
+    //     }       
+    // }
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const apiUrl = 'https://api.resend.com/emails';
+    async function handleSubmit(e) {
+    e.preventDefault();
+    if (checked && email) {
+        try {
+            const resend = new Resend("re_Jfj7GyeA_L9kY8pzfZ8drMLFcsGp54dsW");
+            await resend.emails.send({
+                from: 'Hasan <hasanabdirahman1999@gmail.com>',
+                to: [email],
+                subject: 'Hello World',
+                react: <Email url="https://example.com" />,
+                html: '<strong>It works!</strong>'
+            }, { baseUrl: proxyUrl + apiUrl }); // Append proxyUrl to the base URL
+            console.log('Email sent successfully');
+        } catch (error) {
+            console.error('Error sending email:', error);
+        }
     }
+}
+
     function handleChange(e){
         setEmail(e.target.value)
     }
@@ -45,3 +66,4 @@ export default function Input(){
         </form>
     )
 }
+
